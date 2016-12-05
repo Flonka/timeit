@@ -5,14 +5,14 @@ import (
 	"timeit/uuid"
 )
 
-type entry struct {
+type Entry struct {
 	Start time.Time
-	End   time.Time `json:"end",omitifempty`
-	Id    string    `json:"id"`
+	End   time.Time
+	Id    string
 }
 
-func NewEntry() *entry {
-	return &entry{
+func NewEntry() *Entry {
+	return &Entry{
 		Id:    uuid.NewHexUuid(16),
 		Start: time.Now().UTC(),
 	}
