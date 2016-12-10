@@ -13,4 +13,5 @@ func main() {
 	s.WriteEntry(e)
 
 	fmt.Println(s.GetEntry(e.Id))
+
 }

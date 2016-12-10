@@ -9,6 +9,7 @@ type Entry struct {
 	Start time.Time
 	End   time.Time
 	Id    string
+	Name  string
 }
 
 func NewEntry() *Entry {
