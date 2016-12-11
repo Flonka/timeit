@@ -4,10 +4,14 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"timeit"
 )
 
 type newEntryRequest struct {
 	Name string `json:"name"`
+}
+type entryListResponse struct {
+	Entries []timeit.Entry `json:"entries"`
 }
 
 func main() {
@@ -31,7 +35,31 @@ func main() {
 
 	})
 
+	http.HandleFunc("/api/entry/list", getentries)
+
 	address := ":8080"
 	log.Println("Listening on " + address)
 	log.Fatal(http.ListenAndServe(address, nil))
+}
+
+func getentries(w http.ResponseWriter, r *http.Request) {
+
+	N := 10
+
+	entries := make([]timeit.Entry, 0, N)
+
+	for i := 0; i < N; i++ {
+		e := timeit.NewEntry()
+		e.Name = "Testing testing"
+		entries = append(entries, *e)
+	}
+
+	var response entryListResponse
+	response.Entries = entries
+	err := json.NewEncoder(w).Encode(response)
+	if err != nil {
+		log.Fatal(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }
